@@ -62,7 +62,7 @@ function preload(){
 
   plPlatform = loadImage("/assets/plPlatform.png");
 
-  gameover = loadImage("/assets/gameOver2.jpg");
+  gameover = loadImage("/assets/lostImg.jpg");
   overlay = loadImage("/assets/overlay.png");
 
   welcomeMsg = loadImage("/assets/welcomeMSG.png");
@@ -71,7 +71,8 @@ function preload(){
   musicOffImg = loadImage("/assets/musicOff.png");
 
   rule = loadImage("/assets/rules.png");
-
+  winImg = loadImage("/assets/win2.jpg");
+  starsImg = loadImage("/assets/stars.png");
 }
 
 function setup() {
@@ -272,6 +273,7 @@ function draw() {
     openDoor(dr6);*/
   }
   else if(gameState === 3){
+    overlaySize =1;
     dr4.visible = false;
     dr5.visible = false;
     dr6.visible = false;
@@ -355,10 +357,57 @@ function draw() {
           textCounter = 0;
       }
   }
+  else if(gameState === 5){
+    background(winImg);
+    dr1.visible = false;
+    dr2.visible = false;
+    dr3.visible = false;
+    dr4.visible = false;
+    dr5.visible = false;
+    dr6.visible = false;
+    dr7.visible = false;
+    dr8.visible = false;
+    dr9.visible = false;
 
+
+    r11.visible = false;
+    r12.visible = false;
+    r13.visible = false;
+
+    r21.visible = false;
+    r22.visible = false;
+    r23.visible = false;
+
+    r31.visible = false;
+    r32.visible = false;
+    r33.visible = false;
+
+    if(overlaySize < 100){
+      overlaySize++;
+    }
+      imageMode(CENTER);
+    // image(overlay, width/2 - overlaySize * 6, height/2 - overlaySize * 2, overlaySize * 12, overlaySize * 4);
+    image(starsImg, width/3, height/2 ,overlaySize*6, overlaySize*6);
+
+    //draw blinking text
+    fill("yellow");
+    textSize(50);
+    textAlign(CENTER);
+    textFont("Algerian");
+    textCounter++;
+    if(textCounter > 30){
+        noStroke();
+        text("CONGRATULATION \n YOU WON !!", width/1.3, height/2);
+        stroke("black");
+    }
+
+    if(textCounter > 60){
+        textCounter = 0;
+    }
+  }
  
   drawSprites();
-  if(gameState!=0 && gameState!=4){
+  if(gameState!=0 && gameState!=4 && gameState!==5){
     image(rule,width/5,0,rule.width,rule.height/1.2);
   }
 }
@@ -425,7 +474,7 @@ function keyPressed() {
     case 3://Door 3 is correct door
             if(keyCode === 49){
               window.answer = "Congrats You Won!!!";
-              gameState=4;
+              gameState=5;
             }
           //Door 1 or 2 are wrong doors
             else if(keyCode === 50 || keyCode === 51){
